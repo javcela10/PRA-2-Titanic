@@ -41,11 +41,10 @@ A lo largo del código se dará respuesta a las preguntas planteadas por el prof
 
 ******
 
-
-
 # Descripción del dataset
 
 # Integración y selección de los datos
+
 # Limpieza de los datos
 ## Gestión de datos nulos o vacíos
 ## Identificación y tratamiento de valores extremos
@@ -56,6 +55,7 @@ A lo largo del código se dará respuesta a las preguntas planteadas por el prof
 ## Pruebas estadísticas para comparar los grupos de datos
 
 # Representación gráfica de los resultados
+
 # Conclusiones del análisis
 
 ******
