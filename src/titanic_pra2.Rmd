@@ -1,0 +1,62 @@
+---
+title: 'Tipología y ciclo de vida de los datos: PEC 2-Limpieza y análisis de los datos'
+author: "Autor: Jorge Santos Neila & Javier Cela López"
+date: "Mayo 2020"
+output:
+  html_document:
+    highlight: default
+    number_sections: yes
+    theme: cosmo
+    toc: yes
+    toc_depth: 2
+    includes:
+      in_header: 75.584-PEC-header.html
+  word_document: default
+  pdf_document:
+    highlight: zenburn
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+******
+# PEC 2 - Limpieza y análisis de los datos
+******
+
+# Introducción
+
+# Descripción del dataset
+
+# Integración y selección de los datos
+# Limpieza de los datos
+## Gestión de datos nulos o vacíos
+## Identificación y tratamiento de valores extremos
+
+# Análisis de los datos
+## Selección de los grupos de datos de interés
+## Comprobación de la normalidad y homogeneidad de la varianza
+## Pruebas estadísticas para comparar los grupos de datos
+
+# Representación gráfica de los resultados
+# Conclusiones del análisis
+
+******
+# Bibliografía
+******
+
+* [1] 
+* [2] 
+* [3] 
+* [4] 
+* [5] 
+* [6] 
+* [7] 
+* [8] 
+* [9] 
+* [10] 
+* [11] 
+* [12] 
+* [13] 
+* [14] 
+* [15] 
