@@ -407,21 +407,20 @@ summary {
 <div id="TOC">
 <ul>
 <li><a href="#pec-2---limpieza-y-análisis-de-los-datos"><span class="toc-section-number">1</span> PEC 2 - Limpieza y análisis de los datos</a></li>
-<li><a href="#introducción"><span class="toc-section-number">2</span> Introducción</a></li>
-<li><a href="#descripción-del-dataset"><span class="toc-section-number">3</span> Descripción del dataset</a></li>
-<li><a href="#integración-y-selección-de-los-datos"><span class="toc-section-number">4</span> Integración y selección de los datos</a></li>
-<li><a href="#limpieza-de-los-datos"><span class="toc-section-number">5</span> Limpieza de los datos</a><ul>
-<li><a href="#gestión-de-datos-nulos-o-vacíos"><span class="toc-section-number">5.1</span> Gestión de datos nulos o vacíos</a></li>
-<li><a href="#identificación-y-tratamiento-de-valores-extremos"><span class="toc-section-number">5.2</span> Identificación y tratamiento de valores extremos</a></li>
+<li><a href="#descripción-del-dataset"><span class="toc-section-number">2</span> Descripción del dataset</a></li>
+<li><a href="#integración-y-selección-de-los-datos"><span class="toc-section-number">3</span> Integración y selección de los datos</a></li>
+<li><a href="#limpieza-de-los-datos"><span class="toc-section-number">4</span> Limpieza de los datos</a><ul>
+<li><a href="#gestión-de-datos-nulos-o-vacíos"><span class="toc-section-number">4.1</span> Gestión de datos nulos o vacíos</a></li>
+<li><a href="#identificación-y-tratamiento-de-valores-extremos"><span class="toc-section-number">4.2</span> Identificación y tratamiento de valores extremos</a></li>
 </ul></li>
-<li><a href="#análisis-de-los-datos"><span class="toc-section-number">6</span> Análisis de los datos</a><ul>
-<li><a href="#selección-de-los-grupos-de-datos-de-interés"><span class="toc-section-number">6.1</span> Selección de los grupos de datos de interés</a></li>
-<li><a href="#comprobación-de-la-normalidad-y-homogeneidad-de-la-varianza"><span class="toc-section-number">6.2</span> Comprobación de la normalidad y homogeneidad de la varianza</a></li>
-<li><a href="#pruebas-estadísticas-para-comparar-los-grupos-de-datos"><span class="toc-section-number">6.3</span> Pruebas estadísticas para comparar los grupos de datos</a></li>
+<li><a href="#análisis-de-los-datos"><span class="toc-section-number">5</span> Análisis de los datos</a><ul>
+<li><a href="#selección-de-los-grupos-de-datos-de-interés"><span class="toc-section-number">5.1</span> Selección de los grupos de datos de interés</a></li>
+<li><a href="#comprobación-de-la-normalidad-y-homogeneidad-de-la-varianza"><span class="toc-section-number">5.2</span> Comprobación de la normalidad y homogeneidad de la varianza</a></li>
+<li><a href="#pruebas-estadísticas-para-comparar-los-grupos-de-datos"><span class="toc-section-number">5.3</span> Pruebas estadísticas para comparar los grupos de datos</a></li>
 </ul></li>
-<li><a href="#representación-gráfica-de-los-resultados"><span class="toc-section-number">7</span> Representación gráfica de los resultados</a></li>
-<li><a href="#conclusiones-del-análisis"><span class="toc-section-number">8</span> Conclusiones del análisis</a></li>
-<li><a href="#bibliografía"><span class="toc-section-number">9</span> Bibliografía</a></li>
+<li><a href="#representación-gráfica-de-los-resultados"><span class="toc-section-number">6</span> Representación gráfica de los resultados</a></li>
+<li><a href="#conclusiones-del-análisis"><span class="toc-section-number">7</span> Conclusiones del análisis</a></li>
+<li><a href="#bibliografía"><span class="toc-section-number">8</span> Bibliografía</a></li>
 </ul>
 </div>
 
@@ -429,46 +428,57 @@ summary {
 <div id="pec-2---limpieza-y-análisis-de-los-datos" class="section level1">
 <h1><span class="header-section-number">1</span> PEC 2 - Limpieza y análisis de los datos</h1>
 <hr />
-</div>
-<div id="introducción" class="section level1">
-<h1><span class="header-section-number">2</span> Introducción</h1>
+<p>En esta segunda práctica de Tipología y ciclo de via de los datos se realiza un caso práctico orientado a aprender a identificar los datos relevantes para un proyecto analítico y uso las herramientas de integración, limpieza, validación y análisis de las mismas. Esta práctica ha sido realizada en un grupo de dos formado por las siguientes personas:</p>
+<ul>
+<li><a href="https://github.com/JorgeSaNel">Jorge Santos Neila</a></li>
+<li><a href="https://github.com/javcela10">Javier Cela López</a></li>
+</ul>
+<p>Asimismo, el código se ha subido al repositorio de <a href="https://github.com/JorgeSaNel/PRA-2-Titanic">GitHub</a> y es de uso <strong>METER AQUI SI ES CÖDIGO LIBRE Y POR QUÉ</strong></p>
+<p>Por último, las competencias que se buscan desarrollar a lo largo de esta práctica del Máster de Data Science de la UOC son:</p>
+<ul>
+<li>Capacidad de analizar un problema en el nivel de abstracción adecuado a cada situación y aplicar las habilidades y conocimientos adquiridos para abordarlo y resolverlo.</li>
+<li>Capacidad para aplicar las técnicas específicas de tratamiento de datos (integración, transformación, limpieza y validación) para su posterior análisis.</li>
+</ul>
+<hr />
+<p>A lo largo del código se dará respuesta a las preguntas planteadas por el profesor. Se empezará explicando el dataset seleccionado y los motivos de su elección. A continuación se realizará la tarea de integración y selección de los datos de interés a analizar, seguido del trabajo de limpieza de datos y análisis de datos. El grueso del trabajo estará definido bajo estos dos puntos, ya que son los que más trabajo requieres. Se seguirá con una representación visual de los resultados obtenidos y, para terminar, se expondrán las conclusiones que se han llevado a cabo a lo largo de este ejercicio.</p>
+<hr />
 </div>
 <div id="descripción-del-dataset" class="section level1">
-<h1><span class="header-section-number">3</span> Descripción del dataset</h1>
+<h1><span class="header-section-number">2</span> Descripción del dataset</h1>
 </div>
 <div id="integración-y-selección-de-los-datos" class="section level1">
-<h1><span class="header-section-number">4</span> Integración y selección de los datos</h1>
+<h1><span class="header-section-number">3</span> Integración y selección de los datos</h1>
 </div>
 <div id="limpieza-de-los-datos" class="section level1">
-<h1><span class="header-section-number">5</span> Limpieza de los datos</h1>
+<h1><span class="header-section-number">4</span> Limpieza de los datos</h1>
 <div id="gestión-de-datos-nulos-o-vacíos" class="section level2">
-<h2><span class="header-section-number">5.1</span> Gestión de datos nulos o vacíos</h2>
+<h2><span class="header-section-number">4.1</span> Gestión de datos nulos o vacíos</h2>
 </div>
 <div id="identificación-y-tratamiento-de-valores-extremos" class="section level2">
-<h2><span class="header-section-number">5.2</span> Identificación y tratamiento de valores extremos</h2>
+<h2><span class="header-section-number">4.2</span> Identificación y tratamiento de valores extremos</h2>
 </div>
 </div>
 <div id="análisis-de-los-datos" class="section level1">
-<h1><span class="header-section-number">6</span> Análisis de los datos</h1>
+<h1><span class="header-section-number">5</span> Análisis de los datos</h1>
 <div id="selección-de-los-grupos-de-datos-de-interés" class="section level2">
-<h2><span class="header-section-number">6.1</span> Selección de los grupos de datos de interés</h2>
+<h2><span class="header-section-number">5.1</span> Selección de los grupos de datos de interés</h2>
 </div>
 <div id="comprobación-de-la-normalidad-y-homogeneidad-de-la-varianza" class="section level2">
-<h2><span class="header-section-number">6.2</span> Comprobación de la normalidad y homogeneidad de la varianza</h2>
+<h2><span class="header-section-number">5.2</span> Comprobación de la normalidad y homogeneidad de la varianza</h2>
 </div>
 <div id="pruebas-estadísticas-para-comparar-los-grupos-de-datos" class="section level2">
-<h2><span class="header-section-number">6.3</span> Pruebas estadísticas para comparar los grupos de datos</h2>
+<h2><span class="header-section-number">5.3</span> Pruebas estadísticas para comparar los grupos de datos</h2>
 </div>
 </div>
 <div id="representación-gráfica-de-los-resultados" class="section level1">
-<h1><span class="header-section-number">7</span> Representación gráfica de los resultados</h1>
+<h1><span class="header-section-number">6</span> Representación gráfica de los resultados</h1>
 </div>
 <div id="conclusiones-del-análisis" class="section level1">
-<h1><span class="header-section-number">8</span> Conclusiones del análisis</h1>
+<h1><span class="header-section-number">7</span> Conclusiones del análisis</h1>
 <hr />
 </div>
 <div id="bibliografía" class="section level1">
-<h1><span class="header-section-number">9</span> Bibliografía</h1>
+<h1><span class="header-section-number">8</span> Bibliografía</h1>
 <hr />
 <p><strong>Dataset</strong></p>
 <ul>

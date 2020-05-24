@@ -23,8 +23,25 @@ knitr::opts_chunk$set(echo = TRUE)
 ******
 # PEC 2 - Limpieza y análisis de los datos
 ******
+En esta segunda práctica de Tipología y ciclo de via de los datos se realiza un caso práctico orientado a aprender a identificar los datos relevantes para un proyecto analítico y uso las herramientas de integración, limpieza, validación
+y análisis de las mismas. Esta práctica ha sido realizada en un grupo de dos formado por las siguientes personas:
 
-# Introducción
+* [Jorge Santos Neila](https://github.com/JorgeSaNel)
+* [Javier Cela López](https://github.com/javcela10)
+
+Asimismo, el código se ha subido al repositorio de [GitHub](https://github.com/JorgeSaNel/PRA-2-Titanic) y es de uso **METER AQUI SI ES CÖDIGO LIBRE Y POR QUÉ**
+
+Por último, las competencias que se buscan desarrollar a lo largo de esta práctica del Máster de Data Science de la UOC son:
+
+* Capacidad de analizar un problema en el nivel de abstracción adecuado a cada situación y aplicar las habilidades y conocimientos adquiridos para abordarlo y resolverlo.
+* Capacidad para aplicar las técnicas específicas de tratamiento de datos (integración, transformación, limpieza y validación) para su posterior análisis.
+
+******
+A lo largo del código se dará respuesta a las preguntas planteadas por el profesor. Se empezará explicando el dataset seleccionado y los motivos de su elección. A continuación se realizará la tarea de integración y selección de los datos de interés a analizar, seguido del trabajo de limpieza de datos y análisis de datos. El grueso del trabajo estará definido bajo estos dos puntos, ya que son los que más trabajo requieren. Se seguirá con una representación visual de los resultados obtenidos y, para terminar, se expondrán las conclusiones que se han llevado a cabo a lo largo de este ejercicio.
+
+******
+
+
 
 # Descripción del dataset
 
