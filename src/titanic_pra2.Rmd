@@ -45,18 +45,15 @@ knitr::opts_chunk$set(echo = TRUE)
 # Bibliografía
 ******
 
-* [1] 
-* [2] 
-* [3] 
-* [4] 
-* [5] 
-* [6] 
-* [7] 
-* [8] 
-* [9] 
-* [10] 
-* [11] 
-* [12] 
-* [13] 
-* [14] 
-* [15] 
+**Dataset**
+
+* [1] Selección del dataset utilizado: https://www.kaggle.com/c/titanic/overview
+
+**Libros**
+
+* [2] Calvo M., Subirats L., Pérez D. (2019). Introducción a la limpieza y análisis de los datos. Editorial UOC.
+* [3] Megan Squire (2015). Clean Data. Packt Publishing Ltd.
+* [4] Jiawei Han, Micheine Kamber, Jian Pei (2012). Data mining: concepts and techniques. Morgan Kaufmann.
+* [5] Jason W. Osborne (2010). Data Cleaning Basics: Best Practices in Dealing with Extreme Scores. Newborn and Infant Nursing Reviews; 10 (1): pp. 1527-3369.
+* [6] Peter Dalgaard (2008). Introductory statistics with R. Springer Science & Business Media.
+* [7] Wes McKinney (2012). Python for Data Analysis. O’Reilley Media, Inc.
