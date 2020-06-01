@@ -81,13 +81,24 @@ Debido a que en esta práctica no se van a utilizar modelos de predicción, se h
 * **Embarked**: Código de embarque del pasajero. Esta variable tiene los siguientes tres valores posibles; 'C' = Cherbourg, 'Q' = Queenstown, 'S' = Southampton. La variable es de tipo **varchar**.
 
 Para comprobar que las vairables descritas tienen el formato correcto, se procede a leer el fichero y mostrar, con la función 'str', el tipo de dato de cada variable:
-```{r message= FALSE, warning=FALSE}
-# Se lee el el fichero Titanic
-Titanic_file <- read.csv("../dataset/titanic-dataset.csv", header=T, sep=",", stringsAsFactors = FALSE)
-attach(Titanic_file)
 
-# Se representa el tipo de dato de cada variable
-str(Titanic_file)
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+# Cargamos los paquetes R que vamos a usar
+library(ggplot2)
+library(dplyr)
+
+# Guardamos el conjunto de datos test y train en un único dataset
+# titanic <- read.csv('../dataset/titanic-dataset.csv', stringsAsFactors = FALSE)
+test <- read.csv('../dataset/test.csv',stringsAsFactors = FALSE)
+train <- read.csv('../dataset/train.csv', stringsAsFactors = FALSE)
+
+# Unimos los dos conjuntos de datos en uno solo
+titanic <- bind_rows(train, test)
+
+# Verificamos la estructura del conjunto de datos
+str(titanic)
+
 ```
 
 ## Importancia y objetivos de los análisis
@@ -112,7 +123,168 @@ Adicionalmente, la variable que queda por comentar es el Identificador único de
 **NOTA: METER MÄS VARIABLES SI CREEMOS OPORTUNo**
 
 # Limpieza de los datos
+
+Se tratará en este apartado el asunto de la limpieza del conjunto de datos, y nos enfocaremos en dos grandes puntos: la gestión de datos nulos o vacíos (o missing values) y la identificación y tratamiento de valores extremos (o outliers).
+
 ## Gestión de datos nulos o vacíos
+
+En primer lugar, identificamos aquellos atributos que tengan valores vacíos. Se seguirá una estrategia individualizada teniendo en cuenta el tipo de atributo del que se trate.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+colSums(is.na(titanic))
+colSums(titanic=="")
+
+```
+
+Observamos dos tipos de missing values: valores con NA y valores con cadenas vacías. A efectos prácticos, serán tratados de igual forma unos y otros.
+
+Para empezar, como ya comentábamos, la variable Cabin no aporta conocimiento de las personas que sobrevivieron. Es una cadena de caracteres que ni siquiera tiene categorías o valores predeterminados, por lo que no es interesante para el análisis. Eliminamos dicha variable.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+titanic$Cabin <- NULL
+
+```
+
+La variable de la edad contiene 263 valores vacíos. En principio, imputar los missing values de esta variable usando la media del resto de edades podría ser una buena estrategia. Observamos la distribución de esta variable para determinar si es así. Si la distribución es normal y centrada en la media, utilizaremos este método. Si la distribución estuviese sesgada hacia algún extremo, encontraremos otra manera.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+dens <- density(titanic[!is.na(titanic$Age), "Age"])
+
+n <- length(dens$y)                       #$
+dx <- mean(diff(dens$x))                  # Typical spacing in x $
+y.unit <- sum(dens$y) * dx                # Check: this should integrate to 1 $
+dx <- dx / y.unit                         # Make a minor adjustment
+x.mean <- sum(dens$y * dens$x) * dx
+y.mean <- dens$y[length(dens$x[dens$x < x.mean])] #$
+x.mode <- dens$x[i.mode <- which.max(dens$y)]
+y.mode <- dens$y[i.mode]                  #$
+y.cs <- cumsum(dens$y)                    #$
+x.med <- dens$x[i.med <- length(y.cs[2*y.cs <= y.cs[n]])] #$
+y.med <- dens$y[i.med] 
+
+plot(dens, col = "blue", main="Densidad - Age (clase 1)")
+mapply(function(x,y,c) lines(c(x,x), c(0,y), lwd=2, col=c), c(x.mean, x.med), c(y.mean, y.med), c("green", "red"))
+
+```
+
+Como se puede apreciar, la función de densidad está ligeramente escorada (o sesgada) hacia la izquierda. La línea roja representa la mediana, y la verde la media. Este escoramiento hace que la media se desplace hacia valores mayores. Esto puede indicar que existen valores extremos o, simplemente, que existen valores altos que encontramos en menor densidad. REcordemos que la media es una medida sensible a este tipo de valores, y por tanto se desplaza. Aunque no es demasiado acusado, quezá sea mejor utilizar la mediana para imputar los valores faltantes.
+
+Dado que se trata de un porcentaje considerable de missing values (263 / 1309), podemos afinar algo más el análisis para imputar los valores de forma más específica. Dividiremos la muestra en las tres clases distintas en las que puede viajar un pasajero. El razonamiento detrás de esto es que es de esperar que la edad sea mayor en las mejores clases (la gente mayor suele viajar con más comodidades que la gente joven). Por tanto, es fácil imaginarse que el atributo de la clase puede tener que ver con la edad del viajero. Vemos a continuación el detalle.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+# Clase 1
+
+dens <- density(titanic[!is.na(titanic$Age) & titanic$Pclass == 1, "Age"])
+
+n <- length(dens$y)                       #$
+dx <- mean(diff(dens$x))                  # Typical spacing in x $
+y.unit <- sum(dens$y) * dx                # Check: this should integrate to 1 $
+dx <- dx / y.unit                         # Make a minor adjustment
+x.mean <- sum(dens$y * dens$x) * dx
+y.mean <- dens$y[length(dens$x[dens$x < x.mean])] #$
+x.mode <- dens$x[i.mode <- which.max(dens$y)]
+y.mode <- dens$y[i.mode]                  #$
+y.cs <- cumsum(dens$y)                    #$
+x.med <- dens$x[i.med <- length(y.cs[2*y.cs <= y.cs[n]])] #$
+y.med <- dens$y[i.med] 
+
+plot(dens, col = "blue", main="Densidad - Age (clase 1)")
+mapply(function(x,y,c) lines(c(x,x), c(0,y), lwd=2, col=c), c(x.mean, x.med), c(y.mean, y.med), c("green", "red"))
+
+# Clase 2
+
+dens <- density(titanic[!is.na(titanic$Age) & titanic$Pclass == 2, "Age"])
+
+n <- length(dens$y)                       #$
+dx <- mean(diff(dens$x))                  # Typical spacing in x $
+y.unit <- sum(dens$y) * dx                # Check: this should integrate to 1 $
+dx <- dx / y.unit                         # Make a minor adjustment
+x.mean <- sum(dens$y * dens$x) * dx
+y.mean <- dens$y[length(dens$x[dens$x < x.mean])] #$
+x.mode <- dens$x[i.mode <- which.max(dens$y)]
+y.mode <- dens$y[i.mode]                  #$
+y.cs <- cumsum(dens$y)                    #$
+x.med <- dens$x[i.med <- length(y.cs[2*y.cs <= y.cs[n]])] #$
+y.med <- dens$y[i.med] 
+
+plot(dens, col = "blue", main="Densidad - Age (clase 2)")
+mapply(function(x,y,c) lines(c(x,x), c(0,y), lwd=2, col=c), c(x.mean, x.med), c(y.mean, y.med), c("green", "red"))
+
+# Clase 3
+
+dens <- density(titanic[!is.na(titanic$Age) & titanic$Pclass == 3, "Age"])
+
+n <- length(dens$y)                       #$
+dx <- mean(diff(dens$x))                  # Typical spacing in x $
+y.unit <- sum(dens$y) * dx                # Check: this should integrate to 1 $
+dx <- dx / y.unit                         # Make a minor adjustment
+x.mean <- sum(dens$y * dens$x) * dx
+y.mean <- dens$y[length(dens$x[dens$x < x.mean])] #$
+x.mode <- dens$x[i.mode <- which.max(dens$y)]
+y.mode <- dens$y[i.mode]                  #$
+y.cs <- cumsum(dens$y)                    #$
+x.med <- dens$x[i.med <- length(y.cs[2*y.cs <= y.cs[n]])] #$
+y.med <- dens$y[i.med] 
+
+plot(dens, col = "blue", main="Densidad - Age (clase 3)")
+mapply(function(x,y,c) lines(c(x,x), c(0,y), lwd=2, col=c), c(x.mean, x.med), c(y.mean, y.med), c("green", "red"))
+
+```
+
+Vemos que, para la clase 1, la distribución se centra más en la media, que es cercana a los 40 años. Esto puede ser debido a que no exista mayor concentración de edades bajas que de edades altas como pasa con la muestra total. Es decir, se cumple lo que pronosticábamos: en mejores clases, la edad suele ser más alta. Confirmamos esto viendo que la media y la mediana coinciden prácticamente. 
+
+Para el caso de la clase 2, también encontramos una distribución más centrada. La media se sitúa algo por debajo de los 30 años, y la mediana con un valor ligeramente menor. De nuevo, esta observación confirma la teoría.
+
+Por último, nos encontramos con una densidad para la clase 3 más escorada, y con una media y medianas por debajo de 25 años.
+
+Como sospechábamos, la edad del viajero sí que parece guardar relación con la clase en la que viaje. Utilizaremos las medianas de cada submuestra para imputar los valores nulos de sus observaciones.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+titanic[is.na(titanic$Age) & titanic$Pclass == 1, "Age"] = median(titanic[!is.na(titanic$Age) & titanic$Pclass == 1, "Age"])
+titanic[is.na(titanic$Age) & titanic$Pclass == 2, "Age"] = median(titanic[!is.na(titanic$Age) & titanic$Pclass == 2, "Age"])
+titanic[is.na(titanic$Age) & titanic$Pclass == 3, "Age"] = median(titanic[!is.na(titanic$Age) & titanic$Pclass == 3, "Age"])
+
+```
+
+Encontramos un valor vacío para la variable Fare y dos valores vacíos para la variable Embarked. Al ser números muy reducidos, podemos utilizar la estrategia de imputarlos con la moda (valor que más aparece) para la variable Embarked y la media para la variable Fare sin preocuparnos de introducir sesgos en el conjunto de datos.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+titanic[is.na(titanic$Fare), "Fare"] = mean(titanic[!is.na(titanic$Fare), "Fare"])
+
+freq <- table(titanic[!is.na(titanic$Embarked), "Embarked"])
+titanic[titanic$Embarked == "", "Embarked"] = freq[which.max(freq)]
+
+```
+
+Para la variable Survived, al ser muy numerosas las observaciones con valores vacíos (lo cual significa que el riesgo de introducir sesgos al imputar mal los datos es grande), utilizaremos un método algo más sofisticado. Seleccionaremos las 10 observaciones más "próximas" y usaremos el valor de dichas observaciones (moda para variables categóricas, media para variables continuas) para imputar nuestros missing values. Este método se conoce como el de los k vecinos más próximos. Usaremos la función kNN del paquete VIM de R con $k = 10$.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+library(VIM)
+
+mv <- titanic[, c("Survived", "Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked")]
+
+aux_df <- kNN(mv, variable = c("Survived"), k = 10, dist_var = c("Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"))
+
+titanic$Survived <- aux_df$Survived
+
+```
+
+Para terminar, observamos de nuevo la cantidad de valores vacíos. Si todo ha ido bien, ya no deberíamos ver ninguno.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+colSums(is.na(titanic))
+colSums(titanic=="")
+
+```
+
 ## Identificación y tratamiento de valores extremos
 
 # Análisis de los datos
